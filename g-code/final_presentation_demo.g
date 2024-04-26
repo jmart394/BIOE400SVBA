@@ -4,7 +4,7 @@ G28 Z
 G28 Y
 
 (BEGIN TUBE 1)
-(Move to Diluent, draw up 1 ml)
+(Move to Diluent, draw up 0.5 ml)
 G0 X189 Z169 F2200
 G0 Y13 F800
 G0 E323.8 F3000
@@ -24,7 +24,7 @@ G0 E0 F6000
 G0 E323.8 F6000
 G0 E0 F6000
 
-(Extract 1ml, raise)
+(Extract 0.5ml, raise)
 G0 E323.8 F6000
 G0 Y90 F800
 
