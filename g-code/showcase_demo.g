@@ -16,7 +16,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
@@ -61,7 +61,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
@@ -106,7 +106,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
@@ -151,7 +151,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
@@ -196,7 +196,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
@@ -241,7 +241,7 @@ G0 Y40 F800
 G0 E0 F3000
 
 (Lower for Sip and Spit)
-G0 Y20 F500
+G0 Y25 F500
 
 (Sip and Spit x2 Mix)
 G0 E323.8 F6000
