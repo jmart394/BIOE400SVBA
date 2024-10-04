@@ -11,3 +11,6 @@ All scripts are dependent on hard coded locations of tubes and peripherals. Alwa
  * Move '\Marlin-2.1.2.2\.pio\build\mks_robin_nano_v3_usb_flash_drive\Robin_nano_v3.bin' and '\Marlin-2.1.2.2\.pio\build\mks_robin_nano_v3_usb_flash_drive\assets' to USB stick
  * Put USB stick in MKS Robin Nano board
  * Restart board
+
+# BIOE400-Fall2024
+* For the updated files we worked on, go into UserInterface_SVBA folder. More information on what we did can be found in ReadMe2.m
