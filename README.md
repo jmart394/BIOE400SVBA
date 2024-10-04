@@ -1,4 +1,4 @@
-# BIOE400-Beaver-Rulli-Wu
+# BIOE400-Spring2024
 
 ## IMPORTANT
 All scripts are dependent on hard coded locations of tubes and peripherals. Always double check that things are positioned correctly before running a script to avoid damaging the device.
