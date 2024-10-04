@@ -2,6 +2,24 @@
 
 This repository contains files related to automating tasks in OctoPrint using the OctoRest library and a custom web interface.
 
+### Downloading Octoprint
+- Install Anaconda Navigator 
+- Open up terminal on Mac and insert following commands: 
+   * pip install virtualenv
+   * mkdir OctoPrint
+   * cd OctoPrint
+   * virtualenv venv
+   * source venv/bin/activate
+   * pip install -U pyobjc
+   * pip install OctoPrint
+
+### Running OctoPrint:
+   * cd ~/Downloads/Octoprint
+   * source venv/bin/activate
+   * Octoprint serve --port 4000
+Then open the following link on the web:  http://localhost:4000   
+To kill/stop running the program-> press control C 
+
 ## Project Structure
 
 ### 1. **Automation Files** (`automation_files`)
