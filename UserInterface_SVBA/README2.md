@@ -1,6 +1,6 @@
 # OctoPrint Automation Project
 
-This repository contains files related to automating tasks in OctoPrint using the OctoRest library and a custom web interface.
+This repository contains files related to automating tasks in protoype using python, OctoPrint, OctoRest library and a custom web interface.
 
 ### Downloading Octoprint
 - Install Anaconda Navigator 
@@ -28,7 +28,7 @@ The "automation_files" folder contains initial scripts used for exploring the ca
 ### 2. **Website Files**
 
 - **app.py**:  
-  This Python script is the backend of the web interface. It handles the interaction with the OctoPrint server, including sending commands to start, pause, cancel, and home the printer.
+  This Python script is the backend of the web interface. It handles the interaction with the OctoPrint server, including sending commands to start, pause, cancel, and home the printer. More on Octorest: https://github.com/dougbrion/OctoRest
 
 - **templates**:  
   This folder contains the HTML file for the website's frontend. It defines the structure and layout of the web interface used to control the printer.
@@ -48,5 +48,5 @@ The "automation_files" folder contains initial scripts used for exploring the ca
 5. Access the web interface by clicking on link in VScode terminal to control the printer, with options to start, pause, cancel, and home the printer.
 
 Notes:
-- Number 1 issue that arrises is printer will disconnect and therfore the website will seem to not be working. If commands are not working on website, check to see if printer is properly connected
+- Number 1 issue that arises is printer will disconnect and therefore the website will seem to not be working. If commands are not working on website, check to see if printer is properly connected.
 
