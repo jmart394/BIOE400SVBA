@@ -4,7 +4,7 @@ This repository contains files related to automating tasks in protoype using pyt
 
 ### Downloading Octoprint
 - Install Anaconda Navigator 
-- Open up terminal on Mac and insert following commands: 
+- Open up terminal and insert following commands: 
    * pip install virtualenv
    * mkdir OctoPrint
    * cd OctoPrint
