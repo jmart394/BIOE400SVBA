@@ -22,6 +22,7 @@ The "automation_files" folder contains initial scripts used for exploring the ca
   - source venv/bin/activate
   - (IF YOU HAVENT DOWNLOADED OCTOREST YET THEN RUN THIS COMMAND HERE: pip install octorest )
   - Octoprint serve --port 4000
+  - open octoprint at http://localhost:4000
 2. Upload the two scripts(.g files) from the "automation_files" folder to OctoPrint and ensure printer is connected.
 3. Run the "app.py" script to start the web interface using the following commands in VScode terminal:
   - source ~/Downloads/Octoprint/venv/bin/activate
