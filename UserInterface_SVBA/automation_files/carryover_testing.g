@@ -3,77 +3,56 @@ G28 X
 G28 Z
 G28 Y
 
-(Move to T1, extract, raise)
-G0 X82.2 Z133.3 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
+(Move to water, draw up 2 ml)
+G0 X181 Z40 F2200
+G0 Y39 F800
+G0 E600 F6000
+G0 Y119 F800
 
-(Move to C1, dispense, raise)
-G0 X301 Z181.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
+(Move to Tube 1, dispense)
+G0 X158 Z162 F2200
+G0 Y49 F800
+G0 E0 F6000
+G0 Y119 F800
 
-(Move to T2, extract, raise)
-G0 X82.2 Z156.3 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
+(Move to Dye, Draw up 2ml)
+G0 X97 Z41 F2200
+G0 Y32 F800
+G0 E600 F6000
+G0 Y119 F800
 
-(Move to C2, dispense, raise)
-G0 X301 Z161.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
+(Move to Tube 2, dispense)
+G0 X78 Z163 F2200
+G0 Y49 F800
+G0 E0 F6000
+G0 Y119 F800
 
-(Move to T3, extract, raise)
-G0 X80.5 Z178.7 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
+(Move to Wash, wash 5x)
+G0 X37 Z40 F2200
+G0 Y32 F800
+G0 E600 F6000
+G0 E0 F6000
+G0 E600 F6000
+G0 E0 F6000
+G0 E600 F6000
+G0 E0 F6000
+G0 E600 F6000
+G0 E0 F6000
+G0 E600 F6000
+G0 E0 F6000
+G0 Y119 F800
 
-(Move to C3, dispense, raise)
-G0 X301 Z141.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
+(Move to water, draw up 2 ml)
+G0 X181 Z40 F2200
+G0 Y39 F800
+G0 E600 F6000
+G0 Y119 F800
 
-(Move to T4, extract, raise)
-G0 X59.2 Z178.7 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
-
-(Move to C4, dispense, raise)
-G0 X301 Z120.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
-
-(Move to T5, extract, raise)
-G0 X59.2 Z154.9 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
-
-(Move to C5, dispense, raise)
-G0 X301 Z99.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
-
-(Move to T6, extract, raise)
-G0 X59.2 Z133.3 F1600
-G0 Y32 F500
-G0 E45 F3000
-G0 Y90
-
-(Move to C6, dispense, raise)
-G0 X301 Z78.3 F1600
-G0 Y18 F500
-G0 E0 F3000
-G0 Y90
+(Move to Tube 3, dispense)
+G0 X21 Z164 F2200
+G0 Y50 F800
+G0 E0 F6000
+G0 Y119 F800
 
 (Final Home X -> Y -> Z axes)
 G28 X
