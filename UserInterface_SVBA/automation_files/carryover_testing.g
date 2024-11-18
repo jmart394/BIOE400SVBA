@@ -1,7 +1,6 @@
 (Home X -> Y -> Z axes)
-G28 X
-G28 Z
-G28 Y
+G0 X14.10 Z3
+G0 Y116.70 
 
 (Move to water, draw up 1 ml)
 G0 X181 Z40 F2200
@@ -54,7 +53,6 @@ G0 Y30 F800
 G0 E0 F6000
 G0 Y119 F800
 
-(Final Home X -> Y -> Z axes)
-G28 X
-G28 Z
-G28 Y
+(Home X -> Y -> Z axes)
+G0 X14.10 Z3
+G0 Y116.70
