@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 from octorest import OctoRest
+import time
+import serial
 
 app = Flask(__name__)
 
@@ -9,6 +11,9 @@ API_KEY = "560EA2EF07AD48F597D7B2DD0A4AD4B9"
 
 # Create the OctoRest client
 client = OctoRest(url=URL, apikey=API_KEY)
+
+# Set up Serial port for Arduino
+ser = serial.Serial(port='/dev/cu.usbmodem1301', baudrate=9600, timeout=.01)
 
 # Helper function to run the print job from the beginning
 def start_print_job(gcode_file_name):
@@ -23,6 +28,21 @@ def start_print_job(gcode_file_name):
     except Exception as e:
         print(f"Error starting print: {e}")
 
+def move_track(steps_to_move):
+    try:
+        steps_to_move = str(steps_to_move)
+        ser.write(str.encode(steps_to_move))  # Send track movement command to Arduino
+        
+        while True:
+            response = ser.readline().decode('utf-8').strip()  # Read line from Arduino and decode
+            if response == "Done":
+                print(f"Track system moved by {steps_to_move} steps.")
+                break  
+
+
+    except Exception as e:
+        print(f"Error moving track {e}")
+
 @app.route('/')
 def index():
     # Display the main web page with the control buttons
@@ -31,7 +51,22 @@ def index():
 @app.route('/start')
 def start():
     gcode_file_name = "final_presentation_demo.g"
-    start_print_job(gcode_file_name)  # Start print job from the beginning
+    # start_print_job(gcode_file_name)  # Start print job from the beginning
+
+
+    # Move track system (hardcoded); Set hardcoded steps value (adjust as needed)
+    move_to_1 = 6259
+    move_to_next = 748
+    move_back = (-1*move_to_1) - (6*move_to_next)
+
+    move_track(move_to_1)
+    for i in range(6):
+        move_track(move_to_next)
+    move_track(move_back)
+        
+    #Close port once track movements are done
+    ser.close()
+
     return redirect(url_for('index'))
 
 @app.route('/pause')
