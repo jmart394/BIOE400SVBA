@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype Controller</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        button {
+            width: 200px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 3px solid rgb(68, 112, 221); /* Blue border */
+            background-color: white;
+            color: black;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #c9c3c3;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 22px;
+            color: rgb(68, 112, 221);
+        }
+    </style>
+    <script>
+        function connectToPrototype() {
+            fetch('/connect')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("status").innerText = data.message;
+                    if (data.status === "connected") {
+                        setInterval(checkConnectionStatus, 40000);  // Check connection status every 40 seconds
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function checkConnectionStatus() {
+            fetch('/check_connection')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("status").innerText = `Status: ${data.message}`;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function startPrototype() {
+            fetch('/start')
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);  // Show a message that the start process was successful
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Prototype Controller</h1> 
+    <p>Welcome to the Prototype Controller. Use the buttons below to manage the prototype’s functions directly from this interface.
+       <!-- 
+        <br><strong>Instructions:</strong>
+        <ul>
+            <li><strong>Connect to Prototype:</strong> Connects to the prototype and checks the connection status.</li>
+            <li><strong>Start from Beginning:</strong> Loads and starts the process.</li>
+            <li><strong>Pause:</strong> Pauses the ongoing process.</li>
+            <li><strong>Resume:</strong> Resumes the paused process.</li>
+            <li><strong>Cancel:</strong> Cancels the process job entirely.</li>
+            <li><strong>Home Axis:</strong> Homes the prototype's X, Y, and Z axes.</li>
+        </ul> 
+        -->
+        If you see any error messages, please check your OctoPrint server settings or refresh the page to try again.
+     </p> 
+    <button onclick="connectToPrototype()">Connect to Prototype</button>
+   <!--  OLD VERISON <button onclick="window.location.href='/start'">Start from Beginning</button>-->
+    <button onclick="startPrototype()">Start from Beginning</button>
+    <button onclick="window.location.href='/pause'">Pause Process</button>
+    <button onclick="window.location.href='/resume'">Resume Process</button>
+    <button onclick="window.location.href='/cancel'">Cancel Process</button>
+    <button onclick="window.location.href='/home'">Home Axis</button>
+    <div id="status">Status: Not connected</div>
+</body>
+</html>
