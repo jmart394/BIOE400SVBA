@@ -1,88 +1,67 @@
-from flask import Flask, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for, send_file
 from octorest import OctoRest
 import time
 import serial
+import random
+import os
+import plotly.express as px
+import pandas as pd
+from flask_socketio import SocketIO, emit
+from helper_functions import * 
 
 app = Flask(__name__)
 
+##Final Interface Used in Final Presentation
 # OctoPrint server info
 URL = "http://localhost:4000"
 API_KEY = "560EA2EF07AD48F597D7B2DD0A4AD4B9"
+
 # Create the OctoRest client
 client = OctoRest(url=URL, apikey=API_KEY)
-# Set up Serial port for Arduino
-ser = serial.Serial(port='COM22', baudrate=9600, timeout=.01)
 
-# Helper function to check connection status
-def check_connection_status():
-    try:
-        connection_info = client.connection_info()
-        state = connection_info['current']['state']
-        return state
-    except Exception as e:
-        print(f"Error checking connection: {e}")
-        return "Disconnected"
-# Helper function to run the print job from the beginning
-def start_print_job(gcode_file_name):
-    try:
-        files = client.files()['files']
-        for file in files:
-            if file['name'] == gcode_file_name:
-                client.select(gcode_file_name, print=True)
-                break
-            else:
-                raise Exception(f"GCode file '{gcode_file_name}' not found.")
-
-        # Move track system (hardcoded)
-        steps_to_move = "100"  # Set hardcoded steps value (adjust as needed)
-        ser.write(str.encode(steps_to_move))  # Send track movement command to Arduino
-        print(f"Track system moved by {steps_to_move} steps.")
-
-
-        #Close port once track movements are done
-        ser.close()
-    except Exception as e:
-        print(f"Error starting print: {e}")
+# ser = serial.Serial(port='/dev/cu.usbmodem1201', baudrate=9600, timeout=.01)
 
 @app.route('/')
 def index():
     # Display the main web page with the control buttons
     return render_template('interface_2.html')
 
-# Connect to Prototype function
-@app.route('/connect')
-def connect():
-    try:
-        client.connect()
-        time.sleep(2)  # Short delay to allow connection status update
-        if check_connection_status() in ['Operational', 'Opening serial port']:
-            return jsonify({"status": "connected", "message": "Connection successful!"})
-        else:
-            return jsonify({"status": "connecting", "message": "Connecting to printer..."})
-    except Exception as e:
-        print(f"Error connecting to printer: {e}")
-        return jsonify({"status": "failed", "message": "Failed to connect to printer."})
-
-@app.route('/check_connection')
-def check_connection():
-    status = check_connection_status()
-    return jsonify({"status": status})
-#OLD START PROCESS
-#@app.route('/start')
-#def start():
-  #  gcode_file_name = "final_presentation_demo.g"
-   # start_print_job(gcode_file_name)  # Start print job from the beginning
-   # return redirect(url_for('index'))
 @app.route('/start')
 def start():
-    try:
-        gcode_file_name = "final_presentation_demo.g"
-        # Function that starts the print job (you already have this defined)
-        start_print_job(gcode_file_name) 
-        return jsonify({"status": "success", "message": "Start process initiated successfully."})
-    except Exception as e:
-        print(f"Error starting process: {e}")
-        return jsonify({"status": "error", "message": "Failed to start the process."})
+    gcode_file_name = "mock_demo_SP24.g"
+    start_print_job(gcode_file_name)  # Start print job from the beginning
+    time.sleep(136)
+
+    absorbance_results = []
+    # Move track and take readings for each cuvette
+    move_to_1 = 6259
+    move_to_next = 748
+    move_back = (-1 * move_to_1) - (6 * move_to_next)
+
+    # Move to the first cuvette (blank) and take reading
+     move_track(move_to_1)
+    absorbance_results.append({"Cuvette": 1, "Absorbance": take_reading(1)})
+
+    # Process the next 6 cuvettes
+    for i in range(2, 8):  # Cuvettes 2 through 7
+         move_track(move_to_next)
+        
+        absorbance_results.append({"Cuvette": i, "Absorbance": take_reading(i)})
+        time.sleep(2)
+
+     move_track(move_back)  # Return track to initial position
+
+    # Close port once track movements are done
+     ser.close()
+    
+    # Generate the graph
+    generate_graph(absorbance_results)
+    # Save graph and table
+    graph_path, _ = generate_graph(absorbance_results)
+    table_path = save_table(absorbance_results)
+
+    # Render the results page, passing results and file paths
+    return render_template('results.html', results=absorbance_results, graph_path=graph_path, table_path=table_path)
 
 @app.route('/pause')
 def pause():
@@ -110,14 +89,15 @@ def cancel():
 
 @app.route('/home')
 def home():
-    try:
-        # Send G-code commands to home each axis in order
-        client.gcode(['G28 X', 'G28 Z', 'G28 Y'])
-        print("Homing command sent: G28 X, G28 Z, G28 Y")
-    except Exception as e:
-        print(f"Error homing printer: {e}")
+    gcode_file_name = "home_axis.g"
+    start_print_job(gcode_file_name) 
     return redirect(url_for('index'))
 
+# Add the download route
+@app.route("/download/<filename>")
+def download_file(filename):
+    file_path = os.path.join("static", filename)
+    return send_file(file_path, as_attachment=True)
 
 if __name__ == "__main__":
     app.run(debug=True)
