@@ -5,7 +5,7 @@ G28 Z
 G28 Y
 
 (Move to Dye/Dilent, Draw up 1 ml, Syringe goes down to 45mL)
-G0 X288 Z53 F2400
+G0 X289 Z49 F2400
 G0 Y11 F900
 G0 E600 F3500
 G0 Y115 F900
@@ -25,14 +25,14 @@ G0 E0 F6000
 G0 E600 F6000
 G0 Y115 F900
 
-(Move to C2, dispense, raise)
-G0 X233 Z113 F2400
+(Move to C2, dispense)
+G0 X232 Z112 F2400
 G0 Y86 F900
 G0 E0 F3500
 G0 Y115 F900
 
 (Move to Wash beaker and Wash x3))
-G0 X233 Z50 F2400
+G0 X233 Z49 F2400
 G0 Y11 F900
 G0 E323.8 F6000
 G0 E0 F6000
