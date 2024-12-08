@@ -61,7 +61,8 @@ The "automation_files" folder contains g-code scripts used to control the syring
   - Octoprint serve --port 4000
   - open octoprint at http://localhost:4000
 2. Upload the two scripts(.g files) from the "automation_files" folder to OctoPrint and ensure printer is connected.
-3. Run the "app.py" script to start the web interface using the following commands in VScode terminal:
+3. Install all dependencies shown at bottom of readme 
+4. Run the "app.py" script to start the web interface using the following commands in VScode terminal:
   - source ~/Downloads/Octoprint/venv/bin/activate
   - python app.py [or name of file]
 5. Access the web interface by clicking on link in VScode terminal 
@@ -69,7 +70,7 @@ The "automation_files" folder contains g-code scripts used to control the syring
 Notes:
 - Number 1 issue that arises is printer will disconnect and therefore the website will seem to not be working. If commands are not working on website, check to see if printer is properly connected.
 
-## Running app
+## Install Dependencies
 Run all these different commands in command window before running app
 Here is a list of the `pip install` commands you've needed to run so far based on the information you've provided:
 
