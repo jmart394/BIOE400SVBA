@@ -1,0 +1,108 @@
+from flask import Flask, render_template, redirect, url_for, send_file,jsonify
+from octorest import OctoRest
+import time
+import serial
+import os
+from helper_functions import * 
+
+##Trying to do concetration readings everything is the same as app.py but uses results_2.html
+app = Flask(__name__)
+
+# OctoPrint server info
+URL = "http://localhost:4000"
+API_KEY = "560EA2EF07AD48F597D7B2DD0A4AD4B9"
+client = OctoRest(url=URL, apikey=API_KEY)
+
+# Serial port for Arduino
+ser = serial.Serial(port='/dev/cu.usbmodem1401', baudrate=9600, timeout=.01)
+
+@app.route('/')
+def index():
+    return render_template('interface.html')
+
+@app.route('/start')
+def start():
+    gcode_file_name = "mock_demo_SP24.g"
+    start_print_job(gcode_file_name)  # Start print job from the beginning
+    time.sleep(100)
+
+    absorbance_results = []
+    # Move track and take readings for each cuvette
+    move_to_1 = 6259
+    move_to_next = 748
+    move_back = (-1 * move_to_1) - (6 * move_to_next)
+
+    move_track(move_to_1)
+    for i in range(1, 8):  # Process 7 cuvettes
+        absorbance = take_reading(i)
+        concentration = calculate_concentration(absorbance)
+        absorbance_results.append({"Cuvette": i, "Absorbance": absorbance, "Concentration": concentration})
+        if i < 7:
+            move_track(move_to_next)
+
+    move_track(move_back)
+    ser.close()
+
+    graph_path, _ = generate_graph(absorbance_results)
+    table_path = save_table(absorbance_results)
+
+    return render_template('results_2.html', results=absorbance_results, graph_path=graph_path, table_path=table_path)
+
+@app.route("/download/<filename>")
+def download_file(filename):
+    file_path = os.path.join("static", filename)
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/pause')
+def pause():
+    try:
+        client.pause()
+    except Exception as e:
+        print(f"Error pausing print: {e}")
+    return redirect(url_for('index'))
+
+@app.route('/resume')
+def resume():
+    try:
+        client.resume()
+    except Exception as e:
+        print(f"Error resuming print: {e}")
+    return redirect(url_for('index'))
+
+@app.route('/cancel')
+def cancel():
+    try:
+        client.cancel()
+    except Exception as e:
+        print(f"Error canceling print: {e}")
+    return redirect(url_for('index'))
+
+@app.route('/home')
+def home():
+    gcode_file_name = "home_axis.g"
+    start_print_job(gcode_file_name) 
+    return redirect(url_for('index'))
+
+@app.route('/connect')
+def connect():
+    try:
+        client.connect()
+        max_retries = 10  # Maximum number of retries
+        retry_delay = 1  # Delay between retries in seconds
+
+        # Polling to wait for the connection to be established
+        for _ in range(max_retries):
+            state = check_connection_status()
+            if state in ['Operational', 'Opening serial port']:
+                return jsonify({"status": "connected", "message": "Connection successful!"})
+            time.sleep(retry_delay)
+
+        # If the connection status is still not operational after retries
+        return jsonify({"status": "failed", "message": "Failed to connect to printer after multiple attempts."})
+    except Exception as e:
+        print(f"Error connecting to printer: {e}")
+        return jsonify({"status": "failed", "message": "Error occurred while trying to connect to the printer."})
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
