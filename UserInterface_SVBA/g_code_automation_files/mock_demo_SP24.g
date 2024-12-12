@@ -6,34 +6,32 @@ G28 Y
 
 (Move to Dye/Dilent, Draw up 1 ml, Syringe goes down to 45mL)
 G0 X289 Z49 F2400
-G0 Y11 F900
+G0 Y15 F900
 G0 E600 F3500
-G0 Y115 F900
+G0 Y121 F900
 
 (BEGIN TUBE 1, should be filled with 2.5ml of water)
 (Move to T1, dispense)
-G0 X288 Z164 F2400
-G0 Y72 F900
+G0 X286 Z163 F2400
+G0 Y73 F900
 G0 E0 F3500
-
-(Lower for Mixxing x2 and Extract 1ml)
-G0 Y60 F500
+(Mixxing x2 and Extract 1ml)
 G0 E323.8 F6000
 G0 E0 F6000
 G0 E323.8 F6000
 G0 E0 F6000
 G0 E600 F6000
-G0 Y115 F900
+G0 Y121 F900
 
 (Move to C2, dispense)
-G0 X232 Z112 F2400
-G0 Y86 F900
+G0 X232.9 Z111 F2400
+G0 Y98 F900
 G0 E0 F3500
-G0 Y115 F900
+G0 Y121 F900
 
-(Move to Wash beaker and Wash x3))
+(Move to Wash beaker and Wash x3)
 G0 X233 Z49 F2400
-G0 Y11 F900
+G0 Y15 F900
 G0 E323.8 F6000
 G0 E0 F6000
 G0 E323.8 F6000
